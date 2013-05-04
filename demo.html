@@ -1,0 +1,58 @@
+<html>
+	<head>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script src="js/fabric0.9.15.min.js"></script>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<title>Feature Usage Diagram</title>
+		<link rel="stylesheet" type="text/css" href="css/styles.css">
+	</head>
+	<body>
+		<!-- demo features-->
+		<div style="text-align:center;font-size:30px"> Demo Features (see console for output) </div>
+		<div ondblclick="return;">double click div</div>
+		<button>no onclick button</button> <br/>
+		<a href="#">simple ancor</a> <br/>
+		<a href="#" title="ancor with title">ancor with title</a>
+		<!-- end demo features-->
+		
+		<!-- feature usage diagram canvas goes here. It must have id="canvas"-->
+		<div style="text-align:center;font-size:30px"> Feature Usage Diagram</div>
+		<canvas id="canvas" width="2000" height="1000"></canvas>
+		
+		<!-- feature usage explorer library goes after canvas -->
+		<script src="js/feature.usage.explorer.js"></script>
+		
+		<!-- feature usage explorer usage demo-->
+		<script type="text/javascript">
+		/* Supported JavaSript events:                                                  */
+		/* click dblclick mousedown mousemove mouseover mouseout mouseup keydown        */
+		/* keypress keyup abort error load resize scroll unload blur change focus       */
+		/* reset select submit                                                          */
+		
+		/* Feature Usage Explorer can be used only after DOM has been initialized       */
+		$(function(){
+		
+		/* explorer.getFeatures(e) gets obtains all features that have one of the standard 
+		JavaScript events binded to them. User can sepcify the events of interest */
+		 	var features = explorer.getFeatures ("click dblclick");
+			for (var i=0;i<features.length;i++)
+				console.log("Path: "+ features[i].path+" Feature name: "+ features[i].name);
+		
+		/* explorer.monitorFeatures(e) binded to the element of interest, monitors if
+		specified events were trigered on features. Finally, it returns feature details
+		and the event which was triggered												*/ 	
+			$(window).bind("click dblclick", function(event){  
+				if (explorer.monitorFeatures(event)) {
+					var feature = explorer.monitorFeatures(event);
+					console.log("Path: "+ feature.path+" Feature name: "+ feature.name+ " Event type: "+feature.eventType);
+				}
+			});
+		
+		/* explorer.inidDiagram(url) initializes the diagram on canvas with id="canvas"
+		and visualizes the diagram based on the data provided in the url                */
+			explorer.inidDiagram('http://10.27.254.125/~sarunasmarciuska/feature-usage-diagram/json-examples/json.txt');
+		
+		});
+		</script>
+	</body>
+</html>

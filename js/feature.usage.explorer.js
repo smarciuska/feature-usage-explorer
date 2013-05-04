@@ -1,3 +1,62 @@
+var explorer = explorer || {};
+getFeatureName = function (feature) {
+	var feature_name = $(feature).attr("title") || $(feature).val() || $(feature).text();
+	return feature_name;
+}
+ 
+getDOMPath = function (element) {
+	var tagName = element.tagName.toLowerCase();
+	var path = []; 
+	while ( (element.nodeName.toLowerCase() != "html") && 
+			(element = element.parentNode) && 
+			path.unshift(element.nodeName.toLowerCase() + 
+			(element.id ? "#" + element.id : "") + 
+			(element.className ? "." + element.className.replace(/s+/g, ".") : "")));
+	return path.join(" > ")+": "+ tagName;
+}
+ 
+filterElementsByEvent = function (event_name) { 
+	return $("*").toArray().filter(function(el) { return $(el).attr(event_name) }); 
+}
+
+explorer.getFeatures = function  (eventString) {
+	var eventArray = getJqueryEvents(eventString);
+	var elementArray = new Array();
+	for (var i = 0; i < eventArray.length; i++){ 
+		elementArray = elementArray.concat(filterElementsByEvent(eventArray[i])); 
+	} 
+	elementArray = elementArray.concat($("*").find("input[type!='hidden']").toArray()); 
+	elementArray = elementArray.concat($("*").find("a").toArray()); 
+	elementArray = elementArray.concat($("*").find("textarea").toArray());
+	var features = new Array();
+	for (var i = 0; i < elementArray.length; i++){
+		var feature_path = getDOMPath(elementArray[i]);
+		var feature_name = getFeatureName(elementArray[i]);
+		features.push({path: feature_path, name: feature_name, element: elementArray[i]});
+	}
+	return features;
+}
+
+getJqueryEvents = function (events) {
+	var jqueryEvents=events.split(" ");
+	for (var i=0; i<events.length;i++)
+		jqueryEvents[i]="on"+jqueryEvents[i];
+	return jqueryEvents;
+}
+
+/****************************************************************************************/
+
+explorer.monitorFeatures = function (event) {
+	if ($(event.target).attr("on" + event.type) != undefined||(event.target.tagName=="A"||event.target.tagName=="INPUT"||event.target.tagName=="TEXTAREA"&&event.type=="click")) {  
+		var feature_path = getDOMPath(event.target);
+		var feature_name = getFeatureName(event.target);
+		return {path: feature_path, name: feature_name, eventType: event.type,  element: event.target};		
+	}
+	return false;
+}
+
+/****************************************************************************************/
+
 		var canvasw = 800;
 		var canvash = 1000;
 		var canvas = new fabric.Canvas('canvas');
@@ -13,10 +72,7 @@
 		var rtidx = -1;//root index 
 		var fgidx = 0; //feature group index.
 		
-		var explorer = explorer || {};
-		
 		explorer.inidDiagram = function(url) {
-
 			jQuery.ajax({
 				url: url,
 				error: function (jqXHR, textStatus, errorThrown) {
@@ -271,7 +327,7 @@
 			for (var i = 0; i < classes.length; i++) {
 				var ri = classes[i].rtidx;
 				var fi = classes[i].fgidx;
-				if (ri == undefined || fi == undefined || featuregroupid[ri][fi] == undefined) continue;
+				if (ri == undefined || fi == undefined || featuregroupid[ri] == undefined || featuregroupid[ri][fi] == undefined) break;
 				if(classes[i].linksOut)
 				for (var j = 0; j < classes[i].linksOut.length; j++) {
 					if (classes[i].id != featuregroupid[ri][fi] && classes[i].linksOut[j] && classes[i].linksOut[j].cardinality == "" && classes[i].linksOut[j].id == featuregroupid[ri][fi]) {
