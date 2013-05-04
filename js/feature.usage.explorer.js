@@ -91,9 +91,6 @@ explorer.monitorFeatures = function (event) {
 					}
 				},
 				success: function (data) {
-					//debugger;
-					//var jsonData = jQuery.parseJSON(data);
-					console.log(data);
 					buildClassDiagram(data);
 				}
 			});
