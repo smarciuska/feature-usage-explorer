@@ -72,7 +72,7 @@ explorer.monitorFeatures = function (event) {
 		var rtidx = -1;//root index 
 		var fgidx = 0; //feature group index.
 		
-		explorer.inidDiagram = function(url) {
+		explorer.initDiagram = function(url) {
 			jQuery.ajax({
 				url: url,
 				dataType: "jsonp",
