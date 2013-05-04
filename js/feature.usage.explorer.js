@@ -75,6 +75,7 @@ explorer.monitorFeatures = function (event) {
 		explorer.inidDiagram = function(url) {
 			jQuery.ajax({
 				url: url,
+				dataType: "jsonp",
 				error: function (jqXHR, textStatus, errorThrown) {
 					switch (jqXHR.status) {
 					case 400:
@@ -90,9 +91,10 @@ explorer.monitorFeatures = function (event) {
 					}
 				},
 				success: function (data) {
-					var jsonData = jQuery.parseJSON(data);
-					console.log(jsonData);
-					buildClassDiagram(jsonData);
+					//debugger;
+					//var jsonData = jQuery.parseJSON(data);
+					console.log(data);
+					buildClassDiagram(data);
 				}
 			});
 		}
