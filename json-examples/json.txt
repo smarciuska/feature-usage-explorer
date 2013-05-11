@@ -1,4 +1,4 @@
-{ "classes" : [
+[
     {
         "id": 1,
         "name": "Feature C",
@@ -312,4 +312,4 @@
         "linksIn": [
         ]
     }
-] }
+]

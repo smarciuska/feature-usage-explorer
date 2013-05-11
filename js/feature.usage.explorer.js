@@ -129,7 +129,8 @@ explorer.monitorFeatures = function (event) {
 		var firstGroupWidth = 0;
 
 		function buildClassDiagram(jsonData) {
-			classes = jsonData.classes;
+			debugger;
+			classes = jsonData;
 			for (var i = 0; i < classes.length; i++) {
 				if (classes[i].siblings) {
 					//for feature groups.
