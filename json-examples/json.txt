@@ -177,7 +177,7 @@
                         "cardinality": "4"
                     },
                     {
-                    	"id": 1,
+                        "id": 1,
                         "cardinality": "40000"
                     }
                 ]
@@ -201,7 +201,7 @@
                     }
                 ]
             },
-			{
+            {
                 "id": 3,
                 "pid": 1,
                 "name": "Feature F",
@@ -213,11 +213,10 @@
                         "cardinality": "4"
                     }
                 ],
-                "linksIn": [
-                ]
+                "linksIn": []
             }
         ]
-    },    
+    },
     {
         "id": 9,
         "name": "Feature C",
@@ -273,8 +272,7 @@
         "name": "Feature Q",
         "usage": "45",
         "type": "feature",
-        "linksOut": [
-        ],
+        "linksOut": [],
         "linksIn": [
             {
                 "id": 10,
@@ -294,8 +292,7 @@
                 "cardinality": "17"
             }
         ],
-        "linksIn": [
-        ]
+        "linksIn": []
     },
     {
         "id": 13,
@@ -309,7 +306,6 @@
                 "cardinality": "170"
             }
         ],
-        "linksIn": [
-        ]
+        "linksIn": []
     }
 ]
