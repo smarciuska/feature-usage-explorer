@@ -129,7 +129,6 @@ explorer.monitorFeatures = function (event) {
 		var firstGroupWidth = 0;
 
 		function buildClassDiagram(jsonData) {
-			debugger;
 			classes = jsonData;
 			for (var i = 0; i < classes.length; i++) {
 				if (classes[i].siblings) {
@@ -786,12 +785,14 @@ explorer.monitorFeatures = function (event) {
 						});
 					}			
 					
-					var angle = Math.atan2(s.arrow.line.y2 - s.arrow.line.y1, s.arrow.line.x2 - s.arrow.line.x1) * 180 / Math.PI;					
-					s.arrow && s.arrow.set({
-						'left': s.left,
-						'top': s.top - 25,
-						'angle': angle-90
-					});
+					if (s.arrow) {
+						var angle = Math.atan2(s.arrow.line.y2 - s.arrow.line.y1, s.arrow.line.x2 - s.arrow.line.x1) * 180 / Math.PI;					
+						s.arrow && s.arrow.set({
+							'left': s.left,
+							'top': s.top - 25,
+							'angle': angle-90
+						});
+					}
 					
 					s.card && s.card.set({
 						'left': s.left - 20,
