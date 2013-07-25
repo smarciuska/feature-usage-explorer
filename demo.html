@@ -8,14 +8,27 @@
 	</head>
 	<body>
 		<!-- demo features-->
-		<div style="text-align:center;font-size:30px"> Demo Features (see console for output) </div>
+		<div style="text-align:center;font-size:30px"> Demo Features</div>
+		<p>Bellow we provide a list of elements, which help to illustrate the functionality of Feature Usage Explorer. 
+		First, you have to open the console of your browser. Then, you should see the list of features that were automatically identified by the tool:
+		</p>
+		<ul>
+			<li> Path: html > body: div Feature name: double click div</li>
+			<li>Path: html > body: a Feature name: simple ancor</li>
+			<li>Path: html > body: a Feature name: ancor with title </li>
+		</ul>
+		<p>Notice that button with no event attached "no onclick button" was not identified, because it does not change the state of the system when user clicks on it. 
+		Furthermore, when you click or double click on the remaining elements then the event is registered and it is outputted to the console. </p>
 		<div ondblclick="return;">double click div</div>
 		<button>no onclick button</button> <br/>
 		<a href="#">simple ancor</a> <br/>
 		<a href="#" title="ancor with title">ancor with title</a>
 		<!-- end demo features-->
-		
+		<p>The user of the Feature Usage Explorer library should decide, which information about the features is important for his/her purposes. Then, such information should be sent to the preferred data storage by substituting console output with ajax call to the selected server. 
+		Finally, if the user is interested to visualise the collected information in Feature Usage Diagram, he should write a parser, which generates required json specified in the <a href="https://github.com/smarciuska/feature-usage-explorer/blob/master/UserManual.pdf">manual</a>. 
+		The demo parser is available in the <a href="#">repository</a> of the Feature Usage Explorer.</p>
 		<!-- feature usage diagram canvas goes here. It must have id="canvas"-->
+		<p>Bellow the Feature Usage Diagram is automatically generated from a <a href="http://featurereduction.org/json-demo/getjson.php">demo json file</a>.</p>
 		<div style="text-align:center;font-size:30px"> Feature Usage Diagram</div>
 		<canvas id="canvas" width="2000" height="1000"></canvas>
 		

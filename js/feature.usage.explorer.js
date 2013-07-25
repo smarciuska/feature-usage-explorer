@@ -217,6 +217,7 @@ explorer.monitorFeatures = function (event) {
 					classes[i].fgidx = fgidx;
 					fgidx++;
 				} else {
+				 
 					var legendgroup = buildFeature(classes[i].name, classes[i].usage, i);
 					legendgroup.set({
 						hasControls: false,
@@ -224,27 +225,34 @@ explorer.monitorFeatures = function (event) {
 					});
 					legendgroup.id = classes[i].id;
 					legendgroup.set(getNextLeftTop(i));
-					var pgroup;
-					if (classes[i].pid) {
-						pgroup = classes[classes[i].pid - 1];
-						if (!pgroup) {
-							pgroup = classes[classes[i].pid - featuregroupid[rtidx - 1] + 1];
-						}
-					}
-					if (pgroup && classes[i].pid) {
-						var inflag = true;
-						if (pgroup.linksIn) for (pgi = 0; pgi < pgroup.linksIn.length; pgi++) {
-								if (pgroup.linksIn[pgi].id == classes[i].id) {
-									addDirectedLink(pgroup, legendgroup, inflag, pgroup.linksIn[pgi].cardinality);
+
+					if (classes[i].linksOut.length>0) {
+						for (j=0;j<classes[i].linksOut.length;j++) {
+							pgroup =  classes[classes[i].linksOut[j].id -1];
+							if (pgroup.object) {
+								if (pgroup.linksIn.length>0) for (pgi = 0; pgi < pgroup.linksIn.length; pgi++) {
+									if (pgroup.linksIn[pgi].id == classes[i].id) {
+										addDirectedLink(pgroup, legendgroup, true, pgroup.linksIn[pgi].cardinality);
+									}
 								}
+							}
+								
 						}
-						inflag = false;
-						if (pgroup.linksOut) for (pgo = 0; pgo < pgroup.linksOut.length; pgo++) {
-								if (pgroup.linksOut[pgo].id == classes[i].id) {
-									addDirectedLink(pgroup, legendgroup, inflag, pgroup.linksOut[pgo].cardinality);
+					} 
+					
+					if (classes[i].linksIn.length>0){
+						for (j=0;j<classes[i].linksIn.length;j++) {
+						 	pgroup =  classes[classes[i].linksIn[j].id -1];
+						 	if (pgroup.object) {
+								if (pgroup.linksOut.length>0) for (pgo = 0; pgo < pgroup.linksOut.length; pgo++) {
+									if (pgroup.linksOut[pgo].id == classes[i].id) {
+										addDirectedLink(pgroup, legendgroup, false, pgroup.linksOut[pgo].cardinality);
+									}
 								}
-						}
+							}
+						 }
 					}
+					
 					canvas.add(legendgroup);
 					classes[i].object = legendgroup;
 					classes[i].rtidx = rtidx;
@@ -255,8 +263,7 @@ explorer.monitorFeatures = function (event) {
 			
 			arrowinc = -75;
 			for (var i = 0; i < classes.length; i++) {
-				pid = classes[i].pid;
-				if(classes[i].type == "group" && pid) {
+				if(classes[i].type == "group") {
 					var ri = classes[i].rtidx;
 					var fi = classes[i].fgidx;
 					if(classes[i].linksIn)
@@ -437,7 +444,7 @@ explorer.monitorFeatures = function (event) {
 		
 		function getNextLeftTop(index) {
 			var options = new Object;
-			if (!classes[index].pid) {
+			if (!classes[index].pid||classes[index].pid==0) {
 				canvasw += firstGroupWidth;
 				options = {
 					left: canvasw,
@@ -610,7 +617,8 @@ explorer.monitorFeatures = function (event) {
 				});
 				arrow.setAngle(angle - 90);
 			}
-			arrow.lockScalingX = arrow.lockScalingY = arrow.lockRotation = true;
+			arrow.lockScalingX = true;
+			arrow.lockScalingY = true;
 			arrow.lockRotation = true;
 			arrow.hasControls = false;
 			arrow.arrowinc = arrowinc;
