@@ -7,11 +7,10 @@ getFeatureName = function (feature) {
 getDOMPath = function (element) {
 	var tagName = element.tagName.toLowerCase();
 	var path = []; 
-	while ( (element.nodeName.toLowerCase() != "html") && 
-			(element = element.parentNode) && 
-			path.unshift(element.nodeName.toLowerCase() + 
-			(element.id ? "#" + element.id : "") + 
-			(element.className ? "." + element.className.replace(/s+/g, ".") : "")));
+	while (element.nodeName.toLowerCase() != "html") {
+			element = element.parentNode;
+			path.unshift(element.nodeName.toLowerCase() +  (element.id ? "#" + element.id : "") + (element.className ? "." + element.className.replace(/s+/g, ".") : ""));
+	}
 	return path.join(" > ")+": "+ tagName;
 }
  
@@ -25,9 +24,9 @@ explorer.getFeatures = function  (eventString) {
 	for (var i = 0; i < eventArray.length; i++){ 
 		elementArray = elementArray.concat(filterElementsByEvent(eventArray[i])); 
 	} 
-	elementArray = elementArray.concat($("*").find("input[type!='hidden']").toArray()); 
-	elementArray = elementArray.concat($("*").find("a").toArray()); 
-	elementArray = elementArray.concat($("*").find("textarea").toArray());
+	elementArray = elementArray.concat($("input[type!='hidden']").toArray()); 
+	elementArray = elementArray.concat($("a").toArray()); 
+	elementArray = elementArray.concat($("textarea").toArray());
 	var features = new Array();
 	for (var i = 0; i < elementArray.length; i++){
 		var feature_path = getDOMPath(elementArray[i]);
